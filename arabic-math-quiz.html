@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار الرياضيات المرح للصف الرابع</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
+        body {
+            font-family: 'Tajawal', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f8ff;
+            direction: rtl;
+        }
+        .quiz-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+        .question-box {
+            background-color: #3498db;
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 32px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+        .equation {
+            direction: ltr;
+            display: inline-block;
+        }
+        input[type="number"] {
+            width: 120px;
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 24px;
+            border: 3px solid #3498db;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #2980b9;
+            box-shadow: 0 0 10px rgba(41, 128, 185, 0.5);
+        }
+        button {
+            background-color: #2ecc71;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            transition: background-color 0.3s, transform 0.1s;
+            font-family: 'Tajawal', Arial, sans-serif;
+        }
+        button:hover {
+            background-color: #27ae60;
+            transform: scale(1.05);
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 24px;
+            min-height: 36px;
+        }
+        .emoji {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>اختبار الرياضيات المرح للصف الرابع</h1>
+        <div class="emoji" id="emoji">🧮</div>
+        <div class="question-box">
+            <span class="equation" id="question"></span>
+        </div>
+        <input type="number" id="answer" placeholder="الإجابة هنا">
+        <br>
+        <button onclick="checkAnswer()">تحقق</button>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        let correctAnswer;
+
+        function generateQuestion() {
+            const operations = ['+', '-'];
+            const operation = operations[Math.floor(Math.random() * operations.length)];
+            let num1, num2;
+
+            if (operation === '+') {
+                num1 = Math.floor(Math.random() * 50) + 1;
+                num2 = Math.floor(Math.random() * 50) + 1;
+                correctAnswer = num1 + num2;
+                document.getElementById('question').textContent = `${num1} + ${num2} = ?`;
+            } else {
+                num1 = Math.floor(Math.random() * 50) + 1;
+                num2 = Math.floor(Math.random() * 50) + 51; // Ensures num2 is always larger
+                correctAnswer = num2 - num1;
+                document.getElementById('question').textContent = `${num1} - ${num2} = ?`;
+            }
+        }
+
+        function checkAnswer() {
+            const userAnswer = parseInt(document.getElementById('answer').value);
+            const resultElement = document.getElementById('result');
+            const emojiElement = document.getElementById('emoji');
+
+            if (userAnswer === correctAnswer) {
+                resultElement.textContent = 'أحسنت! إجابة صحيحة.';
+                resultElement.style.color = '#2ecc71';
+                emojiElement.textContent = '🎉';
+            } else {
+                resultElement.textContent = `للأسف، إجابة خاطئة. الإجابة الصحيحة هي ${correctAnswer}.`;
+                resultElement.style.color = '#e74c3c';
+                emojiElement.textContent = '😢';
+            }
+
+            setTimeout(() => {
+                document.getElementById('answer').value = '';
+                resultElement.textContent = '';
+                emojiElement.textContent = '🧮';
+                generateQuestion();
+            }, 2000);
+        }
+
+        generateQuestion();
+    </script>
+</body>
+</html>
